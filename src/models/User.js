@@ -17,6 +17,9 @@ const userSchema = new mongoose.Schema(
     verificationToken: { type: String },
     resetPasswordToken: { type: String },
     resetPasswordExpires: { type: Date },
+    verificationToken: {
+        type: String, // Stores the OTP for verification
+      },
 
     // Student-specific Fields
     registrationNumber: {
