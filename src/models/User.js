@@ -20,13 +20,14 @@ const userSchema = new mongoose.Schema(
 
     // Student-specific Fields
     registrationNumber: {
-      type: String,
-      unique: true,
-      required: [true, 'Registration number is required'],
-      match: /^[A-Za-z0-9]+$/,
-      trim: true,
+        type: String,
+        unique: true,
+        required: function() {
+          return this.role === 'Student'; // Only required if the user is a Student
+        },
+        match: /^[A-Za-z0-9\/]+$/,  // Updated regex to allow slashes
+        trim: true,
     },
-
     // Messaging
     contacts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }], // User contacts
     chats: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Chat' }], // Connected chats

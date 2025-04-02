@@ -5,6 +5,7 @@ import morgan from 'morgan';
 import compression from 'compression';
 import dotenv from 'dotenv';
 import connectDB from './src/config/db.js';
+import authRoutes from './src/routes/authRoutes.js';
 // Load environment variables
 dotenv.config();
 connectDB();
@@ -22,6 +23,8 @@ app.use(compression());
 app.get('/', (req, res) => {
   res.json({ message: 'Bugema University API is running with ES Modules...' });
 });
+
+app.use('/auth', authRoutes);
 
 // Start Server
 const PORT = process.env.PORT || 5000;
