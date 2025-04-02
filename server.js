@@ -4,9 +4,10 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import compression from 'compression';
 import dotenv from 'dotenv';
-
+import connectDB from './src/config/db.js';
 // Load environment variables
 dotenv.config();
+connectDB();
 
 const app = express();
 
