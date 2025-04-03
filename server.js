@@ -9,6 +9,7 @@ import authRoutes from './src/routes/authRoutes.js';
 import chatRoutes from './src/routes/chatRoutes.js';
 import groupRoutes from './src/routes/groupRoutes.js';
 // import messageRoutes from './src/routes/messageRoutes.js';
+import announcementRoutes from './src/routes/announcementRoutes.js';
 // Load environment variables
 dotenv.config();
 connectDB();
@@ -28,8 +29,9 @@ app.get('/', (req, res) => {
 });
 
 app.use('/auth', authRoutes);
-app.use('/api/chats', chatRoutes);
-app.use('/api/groups', groupRoutes);
+app.use('/chats', chatRoutes);
+app.use('/groups', groupRoutes);
+app.use('/announcements', announcementRoutes);
 
 // Start Server
 const PORT = process.env.PORT || 5000;
