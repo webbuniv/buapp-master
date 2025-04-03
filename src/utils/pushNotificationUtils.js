@@ -3,7 +3,7 @@ import admin from 'firebase-admin';
 import path from 'path';
 
 // Initialize Firebase Admin SDK with your service account credentials
-const serviceAccount = path.resolve('path/to/your/serviceAccountKey.json');  // Replace with actual path
+const serviceAccount = path.resolve('./src/services/service-account.json');  // Replace with actual path
 
 if (!admin.apps.length) {
   admin.initializeApp({

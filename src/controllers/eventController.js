@@ -1,6 +1,6 @@
 // src/controllers/eventController.js
 import Event from '../models/Event.js';
-import { sendPushNotification } from './notificationController.js';
+import { sendPushNotification } from '../utils/pushNotificationUtils.js';
 import { sendEmail } from '../utils/emailUtils.js';
 import { sendSMS } from '../utils/smsUtils.js';
 
