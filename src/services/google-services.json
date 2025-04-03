@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "522867993069",
+    "project_id": "buapp-3ee30",
+    "storage_bucket": "buapp-3ee30.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:522867993069:android:ce81579290a9138da81fe4",
+        "android_client_info": {
+          "package_name": "com.bugemauniv.buapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSP32R93ZeT8nVGIQrtBarsJKtvc8hd2E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
