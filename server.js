@@ -6,6 +6,9 @@ import compression from 'compression';
 import dotenv from 'dotenv';
 import connectDB from './src/config/db.js';
 import authRoutes from './src/routes/authRoutes.js';
+import chatRoutes from './src/routes/chatRoutes.js';
+import groupRoutes from './src/routes/groupRoutes.js';
+// import messageRoutes from './src/routes/messageRoutes.js';
 // Load environment variables
 dotenv.config();
 connectDB();
@@ -25,6 +28,8 @@ app.get('/', (req, res) => {
 });
 
 app.use('/auth', authRoutes);
+app.use('/api/chats', chatRoutes);
+app.use('/api/groups', groupRoutes);
 
 // Start Server
 const PORT = process.env.PORT || 5000;
