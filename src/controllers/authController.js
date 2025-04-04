@@ -154,3 +154,53 @@ export const resetPassword = async (req, res) => {
     res.status(500).send('Error resetting password');
   }
 };
+
+// Login User
+export const loginUser = async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    // Find user by email
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).send('Invalid email or password');
+    }
+
+    // Check if user is verified
+    if (!user.isVerified) {
+      return res.status(401).send('Please verify your email before logging in');
+    }
+
+    // Check if password matches
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).send('Invalid email or password');
+    }
+
+    // Generate JWT token
+    const token = jwt.sign(
+      { id: user._id, role: user.role },
+      process.env.JWT_SECRET,
+      { expiresIn: '1d' } // You can adjust the expiration
+    );
+
+    // Return the token and user data
+    res.status(200).json({
+      message: 'Login successful',
+      token,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        avatar: user.avatar,
+        registrationNumber: user.registrationNumber,
+      },
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error logging in');
+  }
+};
+
