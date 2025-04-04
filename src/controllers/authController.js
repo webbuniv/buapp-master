@@ -19,7 +19,7 @@ const sendOTPEmail = async (email, otp, name) => {
 
 // Register User
 export const registerUser = async (req, res) => {
-  const { name, email, password, role, registrationNumber } = req.body;
+  const { name, email, password, role, registrationNumber, avatar } = req.body;
 
   try {
     // Check if user already exists
@@ -41,6 +41,7 @@ export const registerUser = async (req, res) => {
       password: hashedPassword,
       role,
       registrationNumber,
+      avatar,
       verificationToken: otp,  // Store OTP for verification
     });
 

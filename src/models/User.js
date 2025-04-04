@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema(
       enum: ['Admin', 'Student', 'Lecturer', 'Staff'], 
       default: 'Student' 
     },
-    profilePic: { type: String, default: '' },
+    avatar: { type: String, default: '' },
 
     // Authentication & Security
     isVerified: { type: Boolean, default: false },
