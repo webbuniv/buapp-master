@@ -1,10 +1,21 @@
-import express from 'express';
-import { startChat, sendMessage, blockChat } from '../controllers/chatController.js';
+import express from "express"
+import {
+  startChat,
+  sendMessage,
+  blockChat,
+  getChatMessages,
+  markMessagesAsRead,
+  getUserChats,
+} from "../controllers/chatController.js"
 
-const router = express.Router();
+const router = express.Router()
 
-router.post('/start', startChat);
-router.post('/send', sendMessage);
-router.post('/block', blockChat);
+router.post("/start", startChat)
+router.post("/send", sendMessage)
+router.post("/block", blockChat)
+router.get("/:chatId/messages", getChatMessages)
+router.post("/read", markMessagesAsRead)
+router.get("/user/:userId", getUserChats)
 
-export default router;
+export default router
+

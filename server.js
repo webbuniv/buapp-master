@@ -12,6 +12,7 @@ import groupRoutes from './src/routes/groupRoutes.js';
 import announcementRoutes from './src/routes/announcementRoutes.js';
 import eventRoutes from './src/routes/eventRoutes.js';
 import notificationRoutes from './src/routes/notificationRoutes.js';
+import userRoutes from './src/routes/userRoutes.js';
 
 // Load environment variables
 dotenv.config();
@@ -37,6 +38,7 @@ app.use('/groups', groupRoutes);
 app.use('/announcements', announcementRoutes);
 app.use('/events', eventRoutes);
 app.use('/notifications', notificationRoutes);
+app.use('/users', userRoutes);
 
 // Start Server
 const PORT = process.env.PORT || 5000;
