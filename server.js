@@ -4,6 +4,8 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import compression from 'compression';
 import dotenv from 'dotenv';
+import { createServer } from "http"
+import { Server } from "socket.io"
 import connectDB from './src/config/db.js';
 import authRoutes from './src/routes/authRoutes.js';
 import chatRoutes from './src/routes/chatRoutes.js';
@@ -13,13 +15,27 @@ import announcementRoutes from './src/routes/announcementRoutes.js';
 import eventRoutes from './src/routes/eventRoutes.js';
 import notificationRoutes from './src/routes/notificationRoutes.js';
 import userRoutes from './src/routes/userRoutes.js';
+import { setupSocketIO } from "./src/socket/socketManager.js"
+
 
 // Load environment variables
 dotenv.config();
 connectDB();
 
+
 const app = express();
 
+const httpServer = createServer(app)
+const io = new Server(httpServer, {
+  cors: {
+    origin: process.env.FRONTEND_URL || "http://localhost:3000",
+    methods: ["GET", "POST"],
+    credentials: true,
+  },
+})
+
+// Setup Socket.IO
+setupSocketIO(io)
 // Middleware
 app.use(express.json());
 app.use(cors());
