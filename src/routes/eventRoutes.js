@@ -13,7 +13,7 @@ const router = express.Router();
 
 // POST /api/events - Create an event (requires authentication)
 router.post(
-  '/',
+  '/:creatorId',
   [
     check('title', 'Event title is required').not().isEmpty(),
     check('startTime', 'Start time is required').isISO8601(),

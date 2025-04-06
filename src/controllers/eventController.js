@@ -4,7 +4,8 @@ import { validationResult } from 'express-validator';
 
 // Create a new event
 export const createEvent = async (req, res) => {
-  const { title, description, startTime, endTime, location, isGeneral, reminderTimes, creatorId } = req.body
+  const { creatorId } = req.params;
+  const { title, description, startTime, endTime, location, isGeneral, reminderTimes } = req.body
 
   // Validate the input data
   const errors = validationResult(req)
@@ -21,7 +22,7 @@ export const createEvent = async (req, res) => {
       location,
       isGeneral,
       reminderTimes: reminderTimes || [30], // Default to 30 minutes if not provided
-      creatorId
+      creatorId: creatorId // Use the creatorId from params or the authenticated user
     }
 
     const newEvent = new Event(eventData)
