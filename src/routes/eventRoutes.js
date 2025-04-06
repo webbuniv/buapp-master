@@ -1,24 +1,39 @@
-// src/routes/eventRoutes.js
 import express from 'express';
-import {
-  createEvent,
-  getEvents,
-  updateEvent,
-  deleteEvent,
-} from '../controllers/eventController.js';
+import { check } from 'express-validator'; // For validation
+import { createEvent, getAllEvents, updateEvent, deleteEvent } from '../controllers/eventController';
+import authMiddleware from '../middleware/authMiddleware'; // Middleware to check if the user is authenticated
 
 const router = express.Router();
 
-// Create Event
-router.post('/create', createEvent);
+// POST /api/events - Create an event
+router.post(
+  '/events',
+  authMiddleware, // Ensure the user is authenticated
+  [
+    check('title', 'Event title is required').not().isEmpty(),
+    check('startTime', 'Start time is required').isISO8601(),
+    check('endTime', 'End time is required').isISO8601(),
+  ],
+  createEvent
+);
 
-// Get All Events
-router.get('/', getEvents);
+// GET /api/events - Get all events (both general and personal)
+router.get('/events', authMiddleware, getAllEvents);
 
-// Update Event
-router.put('/:eventId', updateEvent);
+// PUT /api/events - Update an event
+router.put(
+  '/events',
+  authMiddleware, // Ensure the user is authenticated
+  [
+    check('eventId', 'Event ID is required').not().isEmpty(),
+    check('title', 'Event title is required').not().isEmpty(),
+    check('startTime', 'Start time is required').isISO8601(),
+    check('endTime', 'End time is required').isISO8601(),
+  ],
+  updateEvent
+);
 
-// Delete Event
-router.delete('/:eventId', deleteEvent);
+// DELETE /api/events/:eventId - Delete an event
+router.delete('/events/:eventId', authMiddleware, deleteEvent);
 
 export default router;
