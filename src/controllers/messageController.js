@@ -1,55 +1,43 @@
 import Message from '../models/Messages.js';
-import Group from '../models/Groups.js';
 import Chat from '../models/Chats.js';
+import Group from '../models/Groups.js';
 
-// Send a group message
-export const sendGroupMessage = async (req, res) => {
-  const { senderId, groupId, content, type, fileUrl } = req.body;
-
+const getUserMessages = async (req, res) => {
   try {
-    const group = await Group.findById(groupId);
-    if (!group) return res.status(404).json({ error: 'Group not found' });
+    const { userId } = req.params; // Get the user ID from the URL parameter
 
-    const message = new Message({ sender: senderId, content, type, fileUrl, group: groupId });
-    await message.save();
+    // Get all messages from chats the user is a participant of
+    const chatMessages = await Chat.find({ participants: userId })
+      .populate({
+        path: 'messages',
+        match: { readBy: { $ne: userId } }, // Optional: filter for unread messages
+        populate: { path: 'sender', select: 'name' },
+      })
+      .select('messages'); // Only select the messages field
 
-    group.messages.push(message._id);
-    group.lastMessage = message._id;
-    await group.save();
+    // Get all messages from groups the user is a member of
+    const groupMessages = await Group.find({ members: userId })
+      .populate({
+        path: 'messages',
+        match: { readBy: { $ne: userId } }, // Optional: filter for unread messages
+        populate: { path: 'sender', select: 'name' },
+      })
+      .select('messages'); // Only select the messages field
 
-    res.status(201).json(message);
+    // Combine messages from both chats and groups
+    const allMessages = [
+      ...chatMessages.flatMap(chat => chat.messages),
+      ...groupMessages.flatMap(group => group.messages),
+    ];
+
+    // Sort messages by timestamp (latest first)
+    allMessages.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+    res.status(200).json({ messages: allMessages });
   } catch (error) {
-    res.status(500).json({ error: 'Error sending message' });
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred while fetching messages' });
   }
 };
 
-// Edit a message
-export const editMessage = async (req, res) => {
-  const { messageId } = req.params;
-  const { newContent } = req.body;
-
-  try {
-    const message = await Message.findById(messageId);
-    if (!message) return res.status(404).json({ error: 'Message not found' });
-
-    message.content = newContent;
-    message.isEdited = true;
-    await message.save();
-
-    res.status(200).json({ message: 'Message edited successfully' });
-  } catch (error) {
-    res.status(500).json({ error: 'Error editing message' });
-  }
-};
-
-// Delete a message
-export const deleteMessage = async (req, res) => {
-  const { messageId } = req.params;
-
-  try {
-    await Message.findByIdAndDelete(messageId);
-    res.status(200).json({ message: 'Message deleted successfully' });
-  } catch (error) {
-    res.status(500).json({ error: 'Error deleting message' });
-  }
-};
+export default { getUserMessages };
