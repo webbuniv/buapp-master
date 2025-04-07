@@ -15,6 +15,9 @@ import announcementRoutes from './src/routes/announcementRoutes.js';
 import eventRoutes from './src/routes/eventRoutes.js';
 import notificationRoutes from './src/routes/notificationRoutes.js';
 import userRoutes from './src/routes/userRoutes.js';
+import courseRoutes from './src/routes/courseRoutes.js';
+import attendanceRoutes from './src/routes/attendanceRoutes.js';
+import timetableRoutes from './src/routes/timetableRoutes.js';
 import { setupSocketIO } from "./src/socket/socketManager.js"
 
 
