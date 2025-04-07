@@ -1,5 +1,4 @@
 import User from '../models/User.js';
-// import Course from '../models/Course.js';
 
 // Get All Users (Admins only)
 export const getAllUsers = async (req, res) => {
