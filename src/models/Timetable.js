@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import Event from './Event';  // Import the Event model
+import Event from './Event.js';  // Import Event model
 
 const timetableSchema = new mongoose.Schema({
   course: {
@@ -45,6 +45,12 @@ const timetableSchema = new mongoose.Schema({
   endDate: {
     type: Date,  // The date when the repeating classes should end
   },
+  students: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',  // Reference to student users
+    },
+  ],
 }, { timestamps: true });
 
 // Post-save hook to create recurring events when a timetable is created
@@ -64,6 +70,11 @@ timetableSchema.post('save', async function () {
         creatorId: this.lecturer,
         timetable: this._id,
         reminderTimes: [15, 30], // Example reminders (15 min, 30 min before)
+        reminderFor: [
+          ...this.students,  // Send reminders to all students
+          this.lecturer,     // Send reminder to the lecturer
+        ],
+        type: 'class',  // Ensure this is a class event, not a general event
       });
 
       // Save the event for the current week

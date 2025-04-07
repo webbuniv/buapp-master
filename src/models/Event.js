@@ -33,6 +33,12 @@ const eventSchema = new mongoose.Schema({
       type: Number,
     },
   ],
+  reminderFor: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User', // References users (students, lecturers)
+    },
+  ],
   type: {
     type: String,
     enum: ['general', 'meeting', 'class', 'exam', 'deadline'],
