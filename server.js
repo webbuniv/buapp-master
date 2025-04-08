@@ -59,6 +59,9 @@ app.use('/events', eventRoutes);
 app.use('/notifications', notificationRoutes);
 app.use('/users', userRoutes);
 app.use('/messages', messageRoutes);
+app.use('/courses', courseRoutes);
+app.use('/attendance', attendanceRoutes);
+app.use('/timetables', timetableRoutes);
 
 // Start Server
 const PORT = process.env.PORT || 5000;
