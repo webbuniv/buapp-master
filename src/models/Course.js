@@ -22,6 +22,10 @@ const courseSchema = new mongoose.Schema({
     ref: 'User', 
     required: true 
   }, // Lecturer assigned to the course
+  semester: { 
+    type: String,
+    enum: ['1st', '2nd', '3rd', '4th', '5th', '6th'],
+  }, // Semester in which the course is offered
   students: [{ 
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'User' 

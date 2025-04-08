@@ -26,7 +26,6 @@ export const createTimetable = async (req, res) => {
   }
 };
 
-// Get all timetables
 export const getAllTimetables = async (req, res) => {
   try {
     const timetables = await Timetable.find().populate('course lecturer students');
