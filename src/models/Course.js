@@ -17,11 +17,10 @@ const courseSchema = new mongoose.Schema({
     type: String, 
     required: true 
   }, // Department offering the course
-  lecturer: { 
-    type: mongoose.Schema.Types.ObjectId, 
-    ref: 'User', 
-    required: true 
-  }, // Lecturer assigned to the course
+  // lecturer: { 
+  //   type: mongoose.Schema.Types.ObjectId, 
+  //   ref: 'User', 
+  // }, // Lecturer assigned to the course
   semester: { 
     type: String,
     enum: ['1st', '2nd', '3rd', '4th', '5th', '6th'],

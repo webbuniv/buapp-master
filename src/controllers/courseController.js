@@ -4,13 +4,12 @@ import User from '../models/User.js';
 // Create a new course
 export const createCourse = async (req, res) => {
   try {
-    const { name, code, description, department, lecturer, students } = req.body;
+    const { name, code, description, department, students } = req.body;
     const course = new Course({
       name,
       code,
       description,
       department,
-      lecturer,
       students,
     });
     await course.save();
@@ -23,7 +22,7 @@ export const createCourse = async (req, res) => {
 // Get all courses
 export const getAllCourses = async (req, res) => {
   try {
-    const courses = await Course.find().populate('lecturer students');
+    const courses = await Course.find();
     res.status(200).json(courses);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching courses', error });
@@ -33,7 +32,7 @@ export const getAllCourses = async (req, res) => {
 // Get a single course
 export const getCourse = async (req, res) => {
   try {
-    const course = await Course.findById(req.params.id).populate('lecturer students');
+    const course = await Course.findById(req.params.id);
     if (!course) {
       return res.status(404).json({ message: 'Course not found' });
     }
